@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "github.com/capitalx/virgo/backend/grpc/partner";
+
+message userRegisterRequest {
+    string name = 1;
+    string username = 2;
+    string email = 3;
+    string password = 4;
+}
+
+message userRegisterResponse {
+    uint64 id = 1;
+}
+
+message userLoginRequest {
+    string identification = 1; // can be username, email, or mobile number
+    string password = 3;
+}
+message userLoginResponse {
+    uint64 id = 1;
+    string name = 2;
+    string username = 3;
+    string email = 4;
+    string access_code = 5;
+}
+
+message userLogoutRequest {
+    string identification = 1; // can be username, email, or mobile number
+}
+message userLogoutResponse {
+    string message = 1;
+}
+
+message userDeactivateRequest {}
+message userDeactivateResponse {}
+
+message userReactivateRequest {}
+message userReactivateResponse {}
+
+message userBlockRequest {}
+message userBlockResponse {}
+
+message userUnblockRequest {}
+message userUnblockResponse {}
+
+message userChangePasscodeRequest {}
+message userChangePasscodeResponse {}
+
+message userChangeEmailRequest {}
+message userChangeEmailResponse {}
+
+message userGetInfoByEmailRequest {}
+message userGetInfoByEmailResponse {}
+
+service userHandler {
+    rpc UserRegister(userRegisterRequest) returns (userRegisterResponse) {}
+    rpc UserLogin(userLoginRequest) returns (userLoginResponse) {}
+    rpc UserLogout(userLogoutRequest) returns (userLogoutResponse) {}
+    rpc UserDeactivate(userDeactivateRequest) returns (userDeactivateResponse) {}
+    rpc UserReactivate(userReactivateRequest) returns (userReactivateResponse) {}
+    rpc UserBlock(userBlockRequest) returns (userBlockResponse) {}
+    rpc UserUnblock(userUnblockRequest) returns (userUnblockResponse) {}
+    rpc UserChangePasscode(userChangePasscodeRequest) returns (userChangePasscodeResponse) {}
+    rpc UserChangeEmail(userChangeEmailRequest) returns (userChangeEmailResponse) {}
+    rpc UserGetInfoByEmail(userGetInfoByEmailRequest) returns (userGetInfoByEmailResponse) {}
+}
