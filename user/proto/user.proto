@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package proto;
 
-option go_package = "github.com/capitalx/virgo/backend/grpc/partner";
+option go_package = "github.com/YunusHF/sidepro/user";
 
 message userRegisterRequest {
     string name = 1;
@@ -17,6 +17,7 @@ message userRegisterResponse {
 
 message userLoginRequest {
     string identification = 1; // can be username, email, or mobile number
+    int32 method = 2; // 1=id, 2=username, 3=email, 4=mobile number
     string password = 3;
 }
 message userLoginResponse {
@@ -27,11 +28,39 @@ message userLoginResponse {
     string access_code = 5;
 }
 
-message userLogoutRequest {
-    string identification = 1; // can be username, email, or mobile number
-}
+message userLogoutRequest {}
 message userLogoutResponse {
     string message = 1;
+}
+
+message userChangePasscodeRequest {
+    string identification = 1; // can be username, email, or mobile number
+    int32 method = 2; // 1=id, 2=username, 3=email, 4=mobile number
+    string old_password = 3;
+    string new_password = 4;
+}
+message userChangePasscodeResponse {
+    string message = 1;
+}
+
+message userChangeEmailRequest {
+    string identification = 1; // can be username, email, or mobile number
+    int32 method = 2; // 1=id, 2=username, 3=email, 4=mobile number
+    string new_email = 3;
+}
+message userChangeEmailResponse {
+    string message = 1;
+}
+
+message userGetInfoRequest {
+    string identification = 1; // can be username, email, or mobile number
+    int32 method = 2; // 1=id, 2=username, 3=email, 4=mobile number
+}
+message userGetInfoResponse {
+    uint64 id = 1;
+    string name = 2;
+    string username = 3;
+    string email = 4;
 }
 
 message userDeactivateRequest {}
@@ -46,24 +75,15 @@ message userBlockResponse {}
 message userUnblockRequest {}
 message userUnblockResponse {}
 
-message userChangePasscodeRequest {}
-message userChangePasscodeResponse {}
-
-message userChangeEmailRequest {}
-message userChangeEmailResponse {}
-
-message userGetInfoByEmailRequest {}
-message userGetInfoByEmailResponse {}
-
 service userHandler {
     rpc UserRegister(userRegisterRequest) returns (userRegisterResponse) {}
     rpc UserLogin(userLoginRequest) returns (userLoginResponse) {}
     rpc UserLogout(userLogoutRequest) returns (userLogoutResponse) {}
+    rpc UserChangePasscode(userChangePasscodeRequest) returns (userChangePasscodeResponse) {}
+    rpc UserChangeEmail(userChangeEmailRequest) returns (userChangeEmailResponse) {}
+    rpc UserGetInfo(userGetInfoRequest) returns (userGetInfoResponse) {}
     rpc UserDeactivate(userDeactivateRequest) returns (userDeactivateResponse) {}
     rpc UserReactivate(userReactivateRequest) returns (userReactivateResponse) {}
     rpc UserBlock(userBlockRequest) returns (userBlockResponse) {}
     rpc UserUnblock(userUnblockRequest) returns (userUnblockResponse) {}
-    rpc UserChangePasscode(userChangePasscodeRequest) returns (userChangePasscodeResponse) {}
-    rpc UserChangeEmail(userChangeEmailRequest) returns (userChangeEmailResponse) {}
-    rpc UserGetInfoByEmail(userGetInfoByEmailRequest) returns (userGetInfoByEmailResponse) {}
 }
